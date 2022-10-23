@@ -31,3 +31,21 @@ docker ps
 #shows and empty table
 #CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
+
+## Running a js file with node
+We are going to create a js file inside the app folder, and run it with node. As our node container has not been started, we can manually start it with:
+```bash
+docker-compose run node bash
+```
+
+To create the file, we need to have writing rights in /app. Because /app was created by Docker, it is owned by *root*:
+```bash
+sudo chown username:groupe app
+```
+>note: you can see file rights with `ls -l`
+
+Now we can a test.js file in the app folder (See [JS examples](https://www.programiz.com/javascript/examples))
+To run it, simply do:
+```bash
+node test.js
+```
