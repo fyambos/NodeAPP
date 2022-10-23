@@ -49,3 +49,13 @@ To run it, simply do:
 ```bash
 node test.js
 ```
+
+If you modify the file, you have to exit the container and re-enter it for the changes to be computed.
+
+## Initialiser la commande npm
+npm is Node.js's default package manager, since we are in our node container (`docker-compose run node bash`), we can initialize the npm command:
+```bash
+npm init -y
+```
+
+It will create the package.json file which contains infos such as the version, the license, etc. The scripts is where you will add tools such as nodemon, etc. The dependencies is useful when running the command `npm install` as it will install all dependencies listed.
