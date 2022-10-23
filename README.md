@@ -52,10 +52,39 @@ node test.js
 
 If you modify the file, you have to exit the container and re-enter it for the changes to be computed.
 
-## Initialiser la commande npm
+## Initialize the npm command
 npm is Node.js's default package manager, since we are in our node container (`docker-compose run node bash`), we can initialize the npm command:
 ```bash
 npm init -y
 ```
 
-It will create the package.json file which contains infos such as the version, the license, etc. The scripts is where you will add tools such as nodemon, etc. The dependencies is useful when running the command `npm install` as it will install all dependencies listed.
+It will create the package.json file which contains infos such as the version, the license, etc. "The "scripts" is where you will add scripts, tools such as nodemon. "dependencies" will install all dependencies listed when running `npm install`
+
+## Install nodemon
+nodemon is a Node.js tool that automatically restarts the node container after a file has been modified. 
+
+```bash
+npm install nodemon
+```
+This generates the package-lock.json file.
+
+Use the chmod command again to have write access to both of these files:
+```bash
+npm install nodemon 
+sudo chown username:group app/package-lock.json
+sudo chown username:group app/package.json
+```
+
+In the package.json file, add nodemon in "scripts"
+```json
+  "scripts": {
+    "dev": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+```
+
+"dev" is only the name given. You can start the node container with npm run dev instead of the docker command, and now the test.js file can be run with changes.
+
+```bash
+npm run dev
+```
