@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  node: 
+    container_name: node
+    build:
+      context: .
+      dockerfile: ./node/Dockerfile
+    ports: 
+      - 4500:4500
+    volumes:
+      - ./app:/app

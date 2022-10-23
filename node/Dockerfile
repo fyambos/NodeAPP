@@ -1,0 +1,5 @@
+FROM node:lts
+
+WORKDIR /app
+
+EXPOSE 4500
