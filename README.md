@@ -104,7 +104,7 @@ Morgan allows to see the requests sent. Install it with:
 ```bash
 npm i morgan
 ```
-## Build Docker
+## Re-Build Docker
 Our node container has been started with `docker-compose run node bash`, by security, this doesn't open the ports, so when we create our app, we won't be able to see anything on localhost:4500 as the port 4500 port isn't open.
 
 To open the ports, we must compose up, but composing up runs the node, and then exits it with the code 0. That's because in our Dockerfile we didn't pass instructions.
@@ -126,4 +126,24 @@ docker-compose up -d
 ```
 
 ## Create an App
-Create a app/routes folder, and follow the [Express tutorial](https://expressjs.com/en/guide/routing.html) (express.Router at the bottom).
+Follow the [Express tutorial](https://expressjs.com/en/guide/routing.html) (express.Router at the bottom) to create an express app that uses a route. Put the routes inside de app/routes folder.
+
+In the route file, you declare a router variable.
+
+```js
+let router = express.Router();
+```
+
+You can use the HTTP Methods (GET, POST, PUT, PATCH, DELETE, HEAD, etc.) and test them by installing the VS CODE Extension Thunder Client, or using POSTMAN.
+
+Example, a POST Method to access an element by id:
+
+```js
+// GET method, accéder a une classe par un id
+router.get('/:id', (request, response) => {
+  console.log(request.query, request.params);
+  const {id} = request.params;
+  let my_elem = some_elements.find(item => item.id === id);
+  response.status(200).json(my_elem);
+});
+```
