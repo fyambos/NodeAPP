@@ -1,28 +1,21 @@
-// program to write to console
 
-// passing number 
-console.log(8);
+console.log('Hello world');
 
-// passing string
-console.log('hello');
+let age = 23;
+let name = 'Boruto';
+let categories = ["chaussures", "bijoux", "pantalons"];
+let active = true;
 
-// passing variable
-const x = 'hello';
-console.log(x);
-
-// passing function
-function sayName() {
-    return 'Hello John';
+if (age>10){
+    console.log(categories);
 }
-console.log(sayName());
 
-// passing string and a variable
-const name = 'John';
-console.log('Hello ' + name);
+//for index, cat in enumerate(categories)
+categories.forEach((cat, index) => {
+    console.log(index +':'+ cat);
+});
 
-// passing object
-let obj = {
-    name: 'John',
-    age: 28
-}
-console.log(obj);
+//for cat in categories
+categories.forEach((cat) => {
+    console.log(cat);
+});
