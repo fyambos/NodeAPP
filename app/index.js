@@ -1,6 +1,7 @@
 //import packages
 const express = require('express');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 
 //create express app
 const app = express();
@@ -10,15 +11,29 @@ app.use(morgan("dev"));
 app.use(express.json()); // Used to parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies using qs library
 
+//connect to mongoose
+mongoose.connect('mongodb://root:root@mongo:27017/b3?authSource=admin', {
+  useNewUrlParser: true
+}, (error) => { 
+  if (error) {
+    console.log(error) 
+  }
+  else {
+    console.log('BD connect!')
+  } 
+})
+
 //import routes
 const birdsRouter = require('./routes/birds');
 const TestRouter = require('./routes/test');
 const classesRouter = require('./routes/classes');
+const studentRouter = require('./routes/students');
 
 //use routes, this is the name they will have on localhost
 app.use('/birds', birdsRouter);
 app.use('/classetest', TestRouter);
 app.use('/classes', classesRouter);
+app.use('/students', studentRouter);
 
 //exemple, créer une route / qui renvoie un message
 app.get("/", (req, res) => {
@@ -30,3 +45,4 @@ app.get("/", (req, res) => {
 app.listen(4500, () => {
     console.log('Server is running on http://127.0.0.1:4500');
 });
+

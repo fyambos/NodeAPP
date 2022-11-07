@@ -147,3 +147,156 @@ router.get('/:id', (request, response) => {
   response.status(200).json(my_elem);
 });
 ```
+
+> note: nodejs references the actual objects when copying, modifying the copy will modify the actual element. here, modifying my_elem modifies the element in some_elements.
+
+## Erreurs
+Pour voir les erreurs, ouvrir le container node dans docker (les détails, pas le terminal intégré) on peut voir les erreurs. On peut aussi voir nodemon restart à chaque modifications.
+
+## Mongo Express DB & Mongoose
+
+Installing Mongo:
+
+Add mongo as a service in the [docker-compose.yml](docker-compose.yml), here it is named simply **"mongo"**. Then add the mongo-express service, with `depends_on: mongo` so that mongo starts before trying to start mongo-express, and with `restart: on-failure` as sometimes mongo-express does not start in order (starting db before server, etc.) and fails without restarting.
+
+In the mongo-express environment attributes, `ME_CONFIG_MONGODB_URL` @mongo references the name we have given to the mongo service (here, **"mongo"**).
+
+Composing up will install and launch the mongo container. Rebuilding is not necessary because is didn't exist before. 
+
+```bash
+docker-compose up -d
+```
+
+Also, sometimes Mongo Express won't start by itself, you can check if it is started with
+```bash
+sudo docker ps
+```
+
+Start it 
+```bash
+sudo docker-compose up mongo-express -d
+```
+
+To use Mongo in NodeJS, the **mongoose** [package](https://mongoosejs.com/) is needed.
+In the node container do
+```bash
+yarn add mongoose
+```
+
+Import the mongoose package in the [index.js](index.js) and add the connexion to mongoose. The connexion needs to be before the import of the routes. In the connexion, the database you connect to must be specified, here it is our db b3.
+
+Then compose again.
+
+```bash
+docker-compose up -d
+```
+
+You can access Mongo web interface at [http://localhost:8081/](http://localhost:8081/)
+
+The b3 database is not created yet, you can create it in the Mongo web interface.
+
+### Database
+#### Create the student entity
+```javascript
+//modeles/student.js
+const mongoose = require('mongoose');
+const studentSchema = new mongoose.Schema({
+    //...
+}, {
+    //timestamps:
+    timestamps: {
+        createdAt:,
+        updateAt:
+    }
+});
+module.exports = mongoose.model('Student', studentSchema);
+```
+`timestamps:` permet de créer automatiquement des timestamps lors de créations de tables et updates.
+`require: [bool, 'Msg d'erreur'],` permet de definir si le champs de la table est obligatoire
+
+#### Create the route
+```javascript
+//routes/students.js
+const express = require('express');
+const studentModel = require('../models/student');
+let router = express.Router();
+// CRUD Methods
+// ...
+module.exports = router
+```
+
+In [index.js](index.js), *import* and *use* the route.
+
+### Mongoose CRUD
+
+>note: Conditional validations of the user input and try/catch methods need to be implemented.
+
+To POST a new insersion in the database, use `await` before creating the new object. This is to ensure to wait for a response from the db before trying to do a request. To use await, the function must be *async*. 
+
+```javascript
+// POST method, enregistrer un student en bdd
+router.post('/', async (req,res) => {
+  const {firstname, lastname} = req.body;
+  let student = await studentModel.create({
+    firstname,
+    lastname
+  });
+return res.status(200).json(student);
+          
+})
+```
+
+For the GET method, **then()** is used.
+
+```javascript
+// GET method, accéder a la liste des students
+router.get('/', (req,res) => {
+    studentModel.find({}).then(function (students) {
+    res.status(200).json(students);
+    });
+});
+```
+Pour rechercher un enregistrement par id on peut utiliser `findByID()`.
+`find()` peut aussi être utilisé mais retourne l'enregistrement dans un tableau de taille 1.
+On retrouve aussi: `findByIDAndDelete()` et `findByIDandUpdate()`
+
+```javascript
+// GET method, accéder a un enregistrement par un id
+router.get('/:id', (req,res) => {
+  const {id} = req.params;
+  studentModel.findById({'_id':id}).then(function (student) {
+  res.status(200).json(student);
+  });
+});
+
+// PUT method, update whole object by id
+router.delete('/:id', (req,res) => {
+    const {id} = req.params;
+    const {firstname, lastname} = req.body;
+    studentModel.findByIdAndUpdate({'_id':id}).then(function (student) {
+      student.firstname = firstname;
+      student.lastname = lastname;
+    res.status(200).json(student);
+    });
+});
+
+// PATCH method, update partial object by id
+router.delete('/:id', (req,res) => {
+    const {id} = req.params;
+    const {lastname} = req.body;
+    studentModel.findByIdAndUpdate({'_id':id}).then(function (student) {
+      student.lastname = lastname;
+    res.status(200).json(student);
+    });
+});
+
+// DELETE method, delete by id
+router.delete('/:id', (req,res) => {
+    const {id} = req.params;
+    studentModel.findByIdAndDelete({'_id':id}).then(function (student) {
+    res.status(200).json("Enregistrement supprimé.");
+    });
+});
+```
+
+>Erreur: PUT et PATCH ne modifient pas en BDD.
