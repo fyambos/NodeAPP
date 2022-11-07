@@ -7,13 +7,19 @@ let classes = [];
 
 // POST method route, créer un objet classe et le push dans classes
 router.post('/', (request, response) => {
+  //only get the name attribute in the body, not the rest
   const {name} = request.body;
-  //console.log(request.body);
   let classe = {
     id: uuidv4(),
     name
   };
   classes.push(classe);
+  classes.push({id: uuidv4(),name:"java"});
+  classes.push({id: uuidv4(),name:"web dev"});
+  classes.push({id: uuidv4(),name:"web service"});
+  classes.push({id: uuidv4(),name:"english"});
+  classes.push({id: uuidv4(),name:"ios swift"});
+  classes.push({id: uuidv4(),name:"maths"});
   response.status(200).json(classe);
   });
 
@@ -24,35 +30,34 @@ router.get('/', (request, response) => {
 
 // GET method, accéder a une classe par un id
 router.get('/:id', (request, response) => {
-  console.log(request.query, request.params);
   const {id} = request.params;
-  let classe = classes.find(item => item.id === id);
+  let classe = classes.find(item => item.id === id); //( item => { return item.id === id; });
   response.status(200).json(classe);
 });
 
-// PUT method, POST but only once
-router.put('/', (request, response) => {
+// PUT method, total update
+router.put('/:id', (request, response) => {
+    const {id} = request.params;
     const {name} = request.body;
-    //console.log(request.body);
-    let classe = {
-      id: uuidv4(),
-      name
-    };
-    classes.push(classe);
+    let classe = classes.find(item => item.id === id); 
+    classe.name = name;
+    /*
+     * 
+     * classes = classes.filter(item => item.id != id);
+     * classes.push(classe);
+    */
     response.status(200).json(classe);
     });
 
 // DELETE method, delete by an id
 router.delete('/:id', (request, response) => {
-    console.log(request.query, request.params);
-    const {id} = request.params;
-    let classe = classes.find(item => item.id === id);
-    response.status(200).json(id);
-  });
+  const {id} = request.params;
+  classes = classes.filter(item => item.id != id);
+  response.status(200).json(classes);
+});
 
 // HEAD method, check what GET will return
 router.head('/:id', (request, response) => {
-    console.log(request.query, request.params);
     const {id} = request.params;
     let classe = classes.find(item => item.id === id);
     response.status(200).json(classe);
@@ -60,16 +65,19 @@ router.head('/:id', (request, response) => {
 
 // PATCH method, partial update
 router.patch('/:id', (request, response) => {
-    console.log(request.query, request.params);
+    //find the class the id in url
     const {id} = request.params;
     let classe = classes.find(item => item.id === id);
-
-    response.status(200).json(classe);
-
-    const {name} = request.body;
-    classe[name] = name;
-
-    response.status(200).json(classe);
+    //get the parameters to patch
+    const {name,room} = request.body;
+    //patch the parameters
+    classe["name"] = name;
+    classe["room"] = room;
+    //delete the original id
+    classes = classes.filter(item => item.id != id);
+    //
+    classes.push(classe);
+    response.status(200).json(classes);
     });
 
 module.exports = router
