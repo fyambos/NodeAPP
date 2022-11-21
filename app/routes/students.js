@@ -87,23 +87,25 @@ router.delete('/:id', async (req,res) => {
 });
 
 // PUT method, update whole object by id
-router.put('/:id', (req,res) => {
+router.put('/:id', async (req,res) => {
     const {id} = req.params;
     const {firstname, lastname} = req.body;
-    studentModel.findByIdAndUpdate({'_id':id}).then(function (student) {
-      student.firstname = firstname;
-      student.lastname = lastname;
-    res.status(200).json(student);
-    });
-
-    /*
-    let student = studentModel.find(item => item.id === id); 
-    student.name = name;
-    studentModel = studentModel.filter(item => item.id != id);
-    studentModel.push(student);
-    res.status(200).json(studentModel);
-    */
-   
+    try {
+        let student = await studentModel.findOneAndUpdate({
+            _id: id //element de recherche, pas forcément id
+        }, {
+            firstname, //elements modifiéss
+            lastname
+        }, {
+            new: true //pour avoir l'élement après mis à jour et non l'élement récupéré
+        });
+        
+        res.status(200).json(student);
+    } catch (e) {
+        return res.status(500).json({
+            "msg" : "Une erreur est survenue: " + e
+        });
+    }
 });
 
 // PATCH method, update partial object by id

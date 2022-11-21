@@ -305,9 +305,12 @@ router.delete('/:id', (req,res) => {
 });
 ```
 
->Erreur: PUT et PATCH ne modifient pas en BDD.$
-pour ne pas avoir des info connect sur le yml on créer une var environment qu'on peut modifier dans le code
+>Erreur: PUT et PATCH ne modifient pas en BDD.
+La methode utilisée n'était pas await
+
+
 # Env
+pour ne pas avoir des info connect sur le yml on créer une var environment qu'on peut modifier dans le code
     environment:
       - MONGO_URL=mongodb://root:root@mongo:27017/dwm?authSource=admin
 
@@ -327,3 +330,9 @@ useNewUrlParser: true
   } 
 })
 ```
+
+On créer un model classe et on modifie notre ancienne classe pour utiliser le modele et non pas ecrire tout en dur.
+
+Pour la prochaine fois finir le crud students et classes, et ajouter un lien entre classe et students (voir populate)
+
+Fix classe PUT
