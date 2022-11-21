@@ -12,8 +12,9 @@ app.use(express.json()); // Used to parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies using qs library
 
 //connect to mongoose
-mongoose.connect('mongodb://root:root@mongo:27017/b3?authSource=admin', {
-  useNewUrlParser: true
+//mongoose.connect('mongodb://root:root@mongo:27017/b3?authSource=admin', {
+mongoose.connect(process.env.MONGO_URL, {
+useNewUrlParser: true
 }, (error) => { 
   if (error) {
     console.log(error) 
@@ -37,7 +38,12 @@ app.use('/students', studentRouter);
 
 //exemple, créer une route / qui renvoie un message
 app.get("/", (req, res) => {
-  res.status(200).send('<h1>Hello World!</h1>');
+  message = '<h1>Hello World!</h1>'
+  message = message + '<p><a href="/birds">Birds</a></p>'
+  message = message + '<p><a href="/classetest">Classes (Test)</a></p>'
+  message = message + '<p><a href="/classes">Classes (ToDo)</a></p>'
+  message = message + '<p><a href="/students">Etudiants</a></p>'
+  res.status(200).send(message);
 });
 
 //notre application va recevoir des requetes sur le port 4500.

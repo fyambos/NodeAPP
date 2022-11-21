@@ -10,6 +10,8 @@ services:
       - 4500:4500
     volumes:
       - ./app:/app
+    environment:
+      - MONGO_URL=mongodb://root:root@mongo:27017/b3?authSource=admin
   mongo:
     image: mongo
     ports:

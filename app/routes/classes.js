@@ -1,22 +1,21 @@
-const express = require('express');
-const { v4: uuidv4 } = require('uuid');
+// importer mongoose
+import {Schema, model} from 'mongoose'
 
-let router = express.Router();
-
-// GET method, accéder a la liste des classes
-router.get('/', (request, response) => {
-  response.status(200).json(classes);
+// creer le Schema de l'entité
+const classeSchema = new mongoose.Schema({
+    label: {
+        type: String,
+        required: true,
+        //retirer les espaces avant et après dans une chaine
+        trim: true
+    }
+}, {
+    //timestamps:
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+    }
 });
 
-// GET method, accéder a une classe par un id
-router.get('/:id', (request, response) => {
-  console.log(request.query, request.params);
-  const {id} = request.params
-  let classe = classes.find(item => item.id === id);
-  response.status(200).json(classe);
-})
-
-
-
-
-module.exports = router
+// renvoyer le modele crée à partir du Schema
+module.exports = mongoose.model('Classe', classeSchema);

@@ -161,7 +161,7 @@ Add mongo as a service in the [docker-compose.yml](docker-compose.yml), here it 
 
 In the mongo-express environment attributes, `ME_CONFIG_MONGODB_URL` @mongo references the name we have given to the mongo service (here, **"mongo"**).
 
-Composing up will install and launch the mongo container. Rebuilding is not necessary because is didn't exist before. 
+Composing up will install and launch the mongo container. Rebuilding is not necessary because it didn't exist before. 
 
 ```bash
 docker-compose up -d
@@ -177,8 +177,9 @@ Start it
 sudo docker-compose up mongo-express -d
 ```
 
-To use Mongo in NodeJS, the **mongoose** [package](https://mongoosejs.com/) is needed.
-In the node container do
+To use Mongo in NodeJS, the **mongoose** package is needed. Info on the package [here](https://mongoosejs.com/).
+
+In the node container do the command:
 ```bash
 yarn add mongoose
 ```
@@ -197,6 +198,7 @@ The b3 database is not created yet, you can create it in the Mongo web interface
 
 ### Database
 #### Create the student entity
+To have students in each classes, we will need to create the student entity.
 ```javascript
 //modeles/student.js
 const mongoose = require('mongoose');
@@ -226,6 +228,10 @@ module.exports = router
 ```
 
 In [index.js](index.js), *import* and *use* the route.
+```javascript
+const studentRouter = require('./routes/students');
+app.use('/students', studentRouter);
+```
 
 ### Mongoose CRUD
 
@@ -299,4 +305,25 @@ router.delete('/:id', (req,res) => {
 });
 ```
 
->Erreur: PUT et PATCH ne modifient pas en BDD.
+>Erreur: PUT et PATCH ne modifient pas en BDD.$
+pour ne pas avoir des info connect sur le yml on créer une var environment qu'on peut modifier dans le code
+# Env
+    environment:
+      - MONGO_URL=mongodb://root:root@mongo:27017/dwm?authSource=admin
+
+on a modifier yml il faut faire docker down et puis up
+on a nommer la bdd dwm (elle n'existe pas)
+
+dans le index.js on modifie connect
+```javascript
+mongoose.connect(process.env.MONGO_URL, {
+useNewUrlParser: true
+}, (error) => { 
+  if (error) {
+    console.log(error) 
+  }
+  else {
+    console.log('BD connect!')
+  } 
+})
+```

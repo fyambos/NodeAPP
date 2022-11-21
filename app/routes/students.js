@@ -95,6 +95,15 @@ router.put('/:id', (req,res) => {
       student.lastname = lastname;
     res.status(200).json(student);
     });
+
+    /*
+    let student = studentModel.find(item => item.id === id); 
+    student.name = name;
+    studentModel = studentModel.filter(item => item.id != id);
+    studentModel.push(student);
+    res.status(200).json(studentModel);
+    */
+   
 });
 
 // PATCH method, update partial object by id
