@@ -276,7 +276,7 @@ router.get('/:id', (req,res) => {
 });
 
 // PUT method, update whole object by id
-router.delete('/:id', (req,res) => {
+router.put('/:id', (req,res) => {
     const {id} = req.params;
     const {firstname, lastname} = req.body;
     studentModel.findByIdAndUpdate({'_id':id}).then(function (student) {
@@ -287,7 +287,7 @@ router.delete('/:id', (req,res) => {
 });
 
 // PATCH method, update partial object by id
-router.delete('/:id', (req,res) => {
+router.patch('/:id', (req,res) => {
     const {id} = req.params;
     const {lastname} = req.body;
     studentModel.findByIdAndUpdate({'_id':id}).then(function (student) {
@@ -332,7 +332,32 @@ useNewUrlParser: true
 ```
 
 On créer un model classe et on modifie notre ancienne classe pour utiliser le modele et non pas ecrire tout en dur.
+ex:
+```javascript
+// DELETE method, delete by id
+router.delete('/:id', (request, response) => {
+  const {id} = request.params;
+  classes = classes.filter(item => item.id != id);
+  response.status(200).json(classes);
+});
+```
+à:
+```javascript
+// DELETE method, delete by id
+router.delete('/:id', async (request,response) => {
+  const {id} = request.params;
+  classeModel.findByIdAndDelete({'_id':id}).then(function (classe) {
 
-Pour la prochaine fois finir le crud students et classes, et ajouter un lien entre classe et students (voir populate)
+  //return the updated class list:
+  classeModel.find({}).then(function (classes) {
+    response.status(200).json(classes);
+      });
 
-Fix classe PUT
+  });
+});
+```
+A faire:
+[x] Crud Classes et Students
+[x] Fix classe PUT
+[] Faire head method
+[] Ajouter un lien entre classe et students (voir populate mongoose)

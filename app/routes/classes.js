@@ -99,42 +99,43 @@ router.put('/:id', async (request, response) => {
         }, {
             new: true //pour avoir l'élement après mis à jour et non l'élement récupéré
         });
-        res.status(200).json(classe);
+        response.status(200).json(classe);
     } catch (e) {
         return response.status(500).json({
             "msg" : "Une erreur est survenue: " + e
         });
     }
 });
-// DELETE method, delete by an id
-router.delete('/:id', (request, response) => {
+
+// DELETE method, delete by id
+router.delete('/:id', async (request,response) => {
   const {id} = request.params;
-  classes = classes.filter(item => item.id != id);
-  response.status(200).json(classes);
+  classeModel.findByIdAndDelete({'_id':id}).then(function (classe) {
+
+  //return the updated class list:
+  classeModel.find({}).then(function (classes) {
+    response.status(200).json(classes);
+      });
+
+  });
 });
 
-// HEAD method, check what GET will return
-router.head('/:id', (request, response) => {
+// HEAD method, à faire
+router.head('/:id', (request,response) => {
     const {id} = request.params;
-    let classe = classes.find(item => item.id === id);
-    response.status(200).json(classe);
+    classeModel.findById({'_id':id}).then(function (classe) {
+      response.status(200).json(classe);
+    });
   });
 
 // PATCH method, partial update
-router.patch('/:id', (request, response) => {
-    //find the class the id in url
+router.patch('/:id', (request,response) => {
     const {id} = request.params;
-    let classe = classes.find(item => item.id === id);
-    //get the parameters to patch
-    const {name,room} = request.body;
-    //patch the parameters
-    classe["name"] = name;
-    classe["room"] = room;
-    //delete the original id
-    classes = classes.filter(item => item.id != id);
-    //
-    classes.push(classe);
-    response.status(200).json(classes);
+    const {label} = request.body;
+    classeModel.findByIdAndUpdate({'_id':id}).then(function (classe) {
+      classe.label = label;
+      response.status(200).json(classe);
     });
+});
 
 module.exports = router
