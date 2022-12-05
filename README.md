@@ -361,3 +361,8 @@ A faire:
 [x] Fix classe PUT
 [] Faire head method
 [] Ajouter un lien entre classe et students (voir populate mongoose)
+
+session
+sudo docker-compose exec node bash
+yarn add express-session
+dans index.js import & require

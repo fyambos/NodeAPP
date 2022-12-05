@@ -2,10 +2,26 @@ const { response } = require('express');
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const classeModel = require('../models/classes');
-
 let router = express.Router();
 
 let classes = [];
+
+router.post('/add-student', async (request,response) => {
+  try {
+    const {studentId, classId} = request.body;
+    console.log(request.body);
+    const classe = await classeModel.findOneAndUpdate({
+      _id:classId
+    }, {
+      students: [studentId]
+    }, {
+      new: true
+    }).populate(student);
+    return response.status(200).json(classe);
+  } catch(error) {
+    return response.status(500);
+  }
+});
 
 // POST method route, créer un objet classe et le push dans classes
 router.post('/', async (request, response) => {

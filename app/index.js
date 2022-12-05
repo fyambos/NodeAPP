@@ -2,6 +2,8 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const session = require('express-session');
+var cookieParser = require('cookie-parser');
 
 //create express app
 const app = express();
@@ -10,6 +12,14 @@ const app = express();
 app.use(morgan("dev"));
 app.use(express.json()); // Used to parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies using qs library
+app.use(cookieParser());
+app.use(session({
+  secret: 'Secret12',
+  //saveUninitialized: true,
+  //cookie: { 
+  //  secure: true
+  //}
+}));
 
 //connect to mongoose
 //mongoose.connect('mongodb://root:root@mongo:27017/b3?authSource=admin', {

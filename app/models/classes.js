@@ -7,7 +7,11 @@ const classeSchema = new mongoose.Schema({
         required: true,
         //retirer les espaces avant et après dans une chaine
         trim: true
-    }
+    },
+    students: [{ 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Student'
+    }]
 }, {
     //timestamps:
     timestamps: {

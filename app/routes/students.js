@@ -1,6 +1,7 @@
 const express = require('express');
 const studentModel = require('../models/student');
 let router = express.Router();
+const bcrypt = require('bcrypt');
 
 // POST method, enregistrer un student en bdd
 router.post('/', async (req,res) => {
@@ -39,6 +40,105 @@ router.get('/', async (req,res) => {
     studentModel.find({}).then(function (students) {
     res.status(200).json(students);
     });
+});
+
+
+// Route Register
+
+router.post('/register',  async(req, res) => {
+
+    const {email, email_cfg, password, password_cfg, firstname, lastname} = req.body;
+
+    if((typeof email === 'undefined' || email.trim() === "") || (typeof password === 'undefined' & password.trim() === "" )){
+
+        return(res.status(500).json({
+            msg: "Il faut remplir tous le champs !"
+        }))
+    }
+
+    if(email !== email_cfg || password !== password_cfg){
+
+        return(res.status(500).json({
+            msg: "Les confirmations ne sont pas exactes !"
+        }))
+    }
+
+    try{
+
+        let existeStudent = await studentModel.findOne({email});
+
+        if(existeStudent){
+        
+            return res.status(500).json({
+                msg: "L'utilisateur existe deja "
+            })
+        }
+
+        let student = await studentModel.create({
+
+            email: email.trim(),
+            password: bcrypt.hashSync(password.trim(), 10),
+            firstname: typeof firstname !== 'undefined' ? firstname.trim() : "",
+            lastname: typeof lastname !== 'undefined' ? lastname.trim() : "",
+        });
+    
+        return(res.status(200).json(student));
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({
+            msg: "Une erreur est survenue"
+        })
+    }
+});
+
+
+
+
+// Route Login
+
+router.post('/login',  async(req, res) => {
+
+    const {email, password} = req.body;
+
+    if((typeof email === 'undefined' || email.trim() === "") || (typeof password === 'undefined' & password.trim() === "" )){
+
+        return(res.status(500).json({
+            msg: "Il faut remplir tous les champs !"
+        }))
+    }
+    
+    try{
+
+        let existeStudent = await studentModel.findOne({email: email.trim()});
+
+        if(!existeStudent){
+        
+            return res.status(500).json({
+                msg: "Erreur d'authentification !"
+            });
+        }
+
+       let  compare = bcrypt.compareSync(password.trim(), existeStudent.password );
+
+       if(!compare){
+            return res.status(500).json({
+                msg: "Erreur d'authentification !"
+            });
+       }
+
+       return res.status(200).json(existeStudent);
+    }catch(error){
+
+        return res(500).json({
+            msg: error
+        })
+    }
+
+});
+
+
+router.get('/me', async (request, response) => {
+    return response.status(200).json(request.session.student);
 });
 
 // GET method, accéder a un student par un id
@@ -117,5 +217,7 @@ router.patch('/:id', (req,res) => {
     res.status(200).json(student);
     });
 });
+
+
 
 module.exports = router;
