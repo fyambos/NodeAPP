@@ -34,25 +34,35 @@ useNewUrlParser: true
   } 
 })
 
-//import routes
+//import routes (sinon : erreur cannot post/get/patch etc)
 const birdsRouter = require('./routes/birds');
 const TestRouter = require('./routes/test');
 const classesRouter = require('./routes/classes');
 const studentRouter = require('./routes/students');
+const matieresRouter = require('./routes/matieres');
+const sessionsRouter = require('./routes/sessions');
+const presenceRouter = require('./routes/presences');
 
 //use routes, this is the name they will have on localhost
 app.use('/birds', birdsRouter);
 app.use('/classetest', TestRouter);
 app.use('/classes', classesRouter);
 app.use('/students', studentRouter);
+app.use('/matieres', matieresRouter);
+app.use('/sessions', sessionsRouter);
+app.use('/presences', presenceRouter);
 
 //exemple, créer une route / qui renvoie un message
 app.get("/", (req, res) => {
   message = '<h1>Hello World!</h1>'
+  message = message + '<p><a href="http://localhost:8081/db/b3/">BDD</a></p>'
   message = message + '<p><a href="/birds">Birds</a></p>'
-  message = message + '<p><a href="/classetest">Classes (Test)</a></p>'
-  message = message + '<p><a href="/classes">Classes (ToDo)</a></p>'
+  message = message + '<p><a href="/classetest">Test</a></p>'
+  message = message + '<p><a href="/classes">Classes</a></p>'
   message = message + '<p><a href="/students">Etudiants</a></p>'
+  message = message + '<p><a href="/students">Matieres</a></p>'
+  message = message + '<p><a href="/sessions">Sessions</a></p>'
+  message = message + '<p><a href="/presences">Presence</a></p>'
   res.status(200).send(message);
 });
 

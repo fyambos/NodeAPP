@@ -1,27 +1,52 @@
 const { response } = require('express');
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
-const classeModel = require('../models/classes');
+const classeModel = require('../models/classe');
+const student = require('../models/student');
+const studentModel = require('../models/student'); // Schema hasn't been registered for model \"student\".\nUse mongoose.model(name, schema)"
+
 let router = express.Router();
 
 let classes = [];
 
 router.post('/add-student', async (request,response) => {
   try {
-    const {studentId, classId} = request.body;
-    console.log(request.body);
-    const classe = await classeModel.findOneAndUpdate({
-      _id:classId
-    }, {
-      students: [studentId]
-    }, {
-      new: true
-    }).populate(student);
-    return response.status(200).json(classe);
-  } catch(error) {
-    return response.status(500);
+    const {studentId, classeId} = request.body;
+    //todo, ne pas push si le student n'est pas inscrit dans la base, ne pas push si le student est déjà affecté  à une autre classe?? recup liste [] des classes findall et regarder si classId existe, et si studentId est present dans une des classes?
+    const classe = await classeModel.findOne({
+      _id: classeId
+    });
+    const student = await studentModel.findOne({
+      _id: studentId
+    });
+    //verif si le student n'a pas déjà ete affecté à la classe
+    if(classe.students.indexOf(studentId) === -1) {
+      classe.students.push(studentId);
+      await classe.save();
+      await studentModel.findByIdAndUpdate(studentId, {
+          classe:classeId
+        }, {
+          new: true
+        });
+      const populatedClasse = await classeModel.populate(classe, {
+          path: "students",
+          model: "Student"
+        });
+      
+      await classe.save();
+      return response.status(200).json(populatedClasse);
+    } else {
+      return response.status(400).json({
+        error: "Le student "+student.firstname + " " + student.lastname +" à déjà été affecté à la classe " + classe.label
+      });
+    }
+  }catch(error){
+    console.log(error);
+    return response.status(500).json({error: error.message});
   }
 });
+
+
 
 // POST method route, créer un objet classe et le push dans classes
 router.post('/', async (request, response) => {
@@ -31,7 +56,7 @@ router.post('/', async (request, response) => {
   //gestion des erreurs
   if (label == "" || typeof label == "undefined") {
     return response.status(500).json({
-      msg: "Vous devez donner un nom à votre classe"
+      msg: "Vous devez donner un label à votre classe"
     });
   }
 
@@ -90,7 +115,7 @@ router.get('/:id', async (request, response) => {
     });
     if(classe===null){
       response.status(500).json({
-          "msg" : "Enregistrement non trouvé."
+          "msg" : "La classe n'existe pas."
       });
     }
     else {

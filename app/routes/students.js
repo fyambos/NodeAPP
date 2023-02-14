@@ -92,8 +92,6 @@ router.post('/register',  async(req, res) => {
 });
 
 
-
-
 // Route Login
 
 router.post('/login',  async(req, res) => {
@@ -138,7 +136,21 @@ router.post('/login',  async(req, res) => {
 
 
 router.get('/me', async (request, response) => {
+    //afin de récup le student a jour (info changées telles que classe, email, etc, on refais la requete à chaque access à /me)
+    try {
+        let student = await studentModel.findOne({email: request.session.student.email.trim()});
+    } catch (e) {
+        return res.status(500).json({
+            "msg" : "Une erreur est survenue: " + e
+        });
+    }
+    request.session.student = student;
     return response.status(200).json(request.session.student);
+});
+
+router.post('/logout',  async(request, response) => {
+    //todo
+    request = null;
 });
 
 // GET method, accéder a un student par un id
