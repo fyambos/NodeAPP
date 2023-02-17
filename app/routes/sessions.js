@@ -121,7 +121,6 @@ router.get('/current/:classId', async (req, res) => {
         .populate("classe") 
         .populate("matiere");
         //populate pour pouvoir voir le contenu des classes et matieres de la session, et pas juste l'id
-        //il y a une seule session (findOne) donc c'est lisible d'avoir toutes ces données
         if (!currentSession) {
             return res.status(404).json({
                 error: "Il n'y a pas de session en cours pour cette classe.",
@@ -150,7 +149,9 @@ router.get('/today/:classId', async (req, res) => {
           classe: classId,
           start: { $lt: dayEnd },
           end: { $gt: dayStart }
-      });
+      }).populate("classe") 
+      .populate("matiere");
+      //populate pour pouvoir voir le contenu des classes et matieres de la session, et pas juste l'id
       if (!todaySessions) {
           return res.status(404).json({
               error: "Il n'y a pas de sessions aujourd'hui.",

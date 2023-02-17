@@ -148,10 +148,10 @@ router.get('/me', async (request, response) => {
     return response.status(200).json(request.session.student);
 });
 
-router.post('/logout',  async(request, response) => {
-    //todo
-    request = null;
-});
+router.post('/logout', (req, res) => {
+    req.session.student = null;
+    res.json({ message: "Logout successful." });
+  });
 
 // GET method, accéder a un student par un id
 router.get('/:id', async (req,res) => {
@@ -160,7 +160,7 @@ router.get('/:id', async (req,res) => {
     if((typeof id==='string' && id.length === 24) || typeof id==='number'){
         try {
             //get l'enregistrement par l'id
-            studentModel.findById({'_id':id}).then(function (student) {
+            studentModel.findById({'_id':id}).populate("classe").then(function (student) {
                 // si non trouvé, renvoyer msg
                 if(student===null){
                     res.status(500).json({
