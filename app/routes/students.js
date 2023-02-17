@@ -100,8 +100,8 @@ router.post('/login',  async(req, res) => {
 
     if((typeof email === 'undefined' || email.trim() === "") || (typeof password === 'undefined' & password.trim() === "" )){
 
-        return(res.status(500).json({
-            msg: "Il faut remplir tous les champs !"
+        return(res.status(400).json({
+            msg: "Mauvaise requête, il faut remplir tous les champs !"
         }))
     }
     
@@ -111,16 +111,16 @@ router.post('/login',  async(req, res) => {
 
         if(!existeStudent){
         
-            return res.status(500).json({
-                msg: "Erreur d'authentification !"
+            return res.status(401).json({
+                msg: "Erreur d'authentification, identifiant ou mot de passe incorrect!"
             });
         }
 
        let  compare = bcrypt.compareSync(password.trim(), existeStudent.password );
 
        if(!compare){
-            return res.status(500).json({
-                msg: "Erreur d'authentification !"
+            return res.status(401).json({
+                msg: "Erreur d'authentification, identifiant ou mot de passe incorrect!"
             });
        }
 
