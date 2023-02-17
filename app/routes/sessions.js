@@ -14,8 +14,12 @@ router.post('/', async (req, res) => {
         const { start, end, classeId, matiereId } = req.body;
         const classe = await classeModel.findById(classeId);
         const matiere = await matiereModel.findById(matiereId);
-
-        if (!classe || !matiere) {
+        if (!start || !end || !classeId || !matiereId) {
+          return res.status(404).json({
+            error: "Vous devez remplir tous les champs! start, end, classId, matiereId"
+          });
+        }
+        else if (!classe || !matiere) {
             return res.status(404).json({
                 error: "La classe ou la matière n'existent pas"
             });
@@ -31,6 +35,9 @@ router.post('/', async (req, res) => {
         });
         if (conflitEDT.length > 0) {
             return res.status(409).json({ error: "La classe a déjà une session en conflit avec l'horaire de cette nouvelle session" });
+        }
+        else if (end < start) {
+          return res.status(400).json({ error: "L'horaire de fin de session est avant le début" });
         }
 
         // creer la session

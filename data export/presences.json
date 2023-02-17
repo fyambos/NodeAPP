@@ -1,0 +1,1 @@
+[{"_id":{"$oid":"63d00e844438293acfdfb709"},"present":true,"student":{"$oid":"63693e391806a02821c5ac7b"},"session":{"$oid":"63cff84ff6d4f650ab11fe36"},"created_at":{"$date":"2023-01-24T16:59:48.882Z"},"updated_at":{"$date":"2023-01-24T16:59:48.882Z"},"__v":0}]

@@ -1,0 +1,259 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "NodeApp",
+    "dateExported": "2023-02-17T16:50:24.559Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "2df6e318-f3d9-4714-aa78-f987fbc2ffe5",
+            "name": "Students",
+            "containerId": "",
+            "created": "2023-02-17T16:01:54.959Z",
+            "sortNum": 5000
+        },
+        {
+            "_id": "58d5f28b-d7eb-4f95-8fb9-973b3080fb64",
+            "name": "Classes",
+            "containerId": "",
+            "created": "2023-02-17T16:01:41.415Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "08eb2edc-226a-4f6d-b98f-2129e71140ff",
+            "name": "Matieres",
+            "containerId": "",
+            "created": "2023-02-17T16:03:08.414Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "95e2b30a-12d2-4416-981a-0b39ad9295ba",
+            "name": "Sessions",
+            "containerId": "",
+            "created": "2023-02-17T16:26:59.308Z",
+            "sortNum": 40000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "a7a05efc-4d42-4893-b81c-33acc84f3489",
+            "colId": "1fd14b5a-fc5d-428b-a972-dce954282789",
+            "containerId": "58d5f28b-d7eb-4f95-8fb9-973b3080fb64",
+            "name": "get classes",
+            "url": "http://localhost:4500/classes",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-02-17T15:50:18.477Z",
+            "modified": "2023-02-17T16:01:43.404Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "83f4b99c-2b77-4a0a-88be-5cbdf6a3ee42",
+            "colId": "1fd14b5a-fc5d-428b-a972-dce954282789",
+            "containerId": "2df6e318-f3d9-4714-aa78-f987fbc2ffe5",
+            "name": "get students",
+            "url": "http://localhost:4500/students/63efa3a79cdc1d04f1cbd551",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-02-17T16:00:47.052Z",
+            "modified": "2023-02-17T16:02:22.925Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "78e5c72b-d17e-4f58-9130-dae2ce04ff36",
+            "colId": "1fd14b5a-fc5d-428b-a972-dce954282789",
+            "containerId": "58d5f28b-d7eb-4f95-8fb9-973b3080fb64",
+            "name": "get class by id",
+            "url": "http://localhost:4500/classes/63efa29c9cdc1d04f1cbd541",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-02-17T16:01:13.583Z",
+            "modified": "2023-02-17T16:01:44.295Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "9025ac3a-2023-4783-913f-9388db3f87c0",
+            "colId": "1fd14b5a-fc5d-428b-a972-dce954282789",
+            "containerId": "58d5f28b-d7eb-4f95-8fb9-973b3080fb64",
+            "name": "create classe",
+            "url": "http://localhost:4500/classes",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-02-17T15:53:07.715Z",
+            "modified": "2023-02-17T16:01:45.327Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"label\":\"DWM\"}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "10db0955-7b89-431b-b5b6-8a9e41843557",
+            "colId": "1fd14b5a-fc5d-428b-a972-dce954282789",
+            "containerId": "58d5f28b-d7eb-4f95-8fb9-973b3080fb64",
+            "name": "add student to class",
+            "url": "http://localhost:4500/classes/add-student",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-02-17T15:56:47.211Z",
+            "modified": "2023-02-17T16:01:47.635Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"studentId\":\"63efa3a79cdc1d04f1cbd551\",\n  \"classeId\":\"63efa29c9cdc1d04f1cbd541\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "00fb53d2-ef66-44e2-9895-9d2f2da34481",
+            "colId": "1fd14b5a-fc5d-428b-a972-dce954282789",
+            "containerId": "2df6e318-f3d9-4714-aa78-f987fbc2ffe5",
+            "name": "get student by id",
+            "url": "http://localhost:4500/students/63efa3a79cdc1d04f1cbd551",
+            "method": "GET",
+            "sortNum": 60000,
+            "created": "2023-02-17T16:02:29.198Z",
+            "modified": "2023-02-17T16:02:31.486Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "71b82745-279c-48b0-a329-c04221f6a0b5",
+            "colId": "1fd14b5a-fc5d-428b-a972-dce954282789",
+            "containerId": "2df6e318-f3d9-4714-aa78-f987fbc2ffe5",
+            "name": "create student",
+            "url": "http://localhost:4500/students",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2023-02-17T15:54:08.412Z",
+            "modified": "2023-02-17T16:02:45.321Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"firstname\":\"test\",\n  \"lastname\":\"test\",\n  \"email\":\"test@test.com\",\n  \"password\":\"test\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "c72490f6-cbba-4a5c-abef-2c5a562f9b46",
+            "colId": "1fd14b5a-fc5d-428b-a972-dce954282789",
+            "containerId": "08eb2edc-226a-4f6d-b98f-2129e71140ff",
+            "name": "get matieres",
+            "url": "http://localhost:4500/matieres",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2023-02-17T16:03:24.616Z",
+            "modified": "2023-02-17T16:03:35.815Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "dd9e17af-62fa-4f6b-8c78-fcd084a74852",
+            "colId": "1fd14b5a-fc5d-428b-a972-dce954282789",
+            "containerId": "08eb2edc-226a-4f6d-b98f-2129e71140ff",
+            "name": "get matiere by id",
+            "url": "http://localhost:4500/students/63efa3a79cdc1d04f1cbd551",
+            "method": "GET",
+            "sortNum": 80000,
+            "created": "2023-02-17T16:03:44.213Z",
+            "modified": "2023-02-17T16:03:51.459Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "61d5e305-dab5-4588-b0a6-f75ffe644798",
+            "colId": "1fd14b5a-fc5d-428b-a972-dce954282789",
+            "containerId": "08eb2edc-226a-4f6d-b98f-2129e71140ff",
+            "name": "create matiere",
+            "url": "http://localhost:4500/matieres",
+            "method": "POST",
+            "sortNum": 90000,
+            "created": "2023-02-17T16:04:13.986Z",
+            "modified": "2023-02-17T16:26:03.692Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"label\":\"Ergonomie\"}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "5c14f238-890e-4002-ab07-688b9a41bfa3",
+            "colId": "1fd14b5a-fc5d-428b-a972-dce954282789",
+            "containerId": "95e2b30a-12d2-4416-981a-0b39ad9295ba",
+            "name": "create session",
+            "url": "http://localhost:4500/sessions",
+            "method": "POST",
+            "sortNum": 100000,
+            "created": "2023-02-17T16:27:10.039Z",
+            "modified": "2023-02-17T16:48:45.776Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{ \n  \"classeId\":\"63efa29c9cdc1d04f1cbd541\",\n  \"matiereId\":\"63efa9be9cdc1d04f1cbd576\",\n  \"start\":\"2023-02-17T11:00:00.000Z\",\n  \"end\":\"2023-02-17T12:45:00.000Z\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "d0d47153-b66e-4972-ace8-dcb483333e26",
+            "colId": "1fd14b5a-fc5d-428b-a972-dce954282789",
+            "containerId": "95e2b30a-12d2-4416-981a-0b39ad9295ba",
+            "name": "get sessions",
+            "url": "http://localhost:4500/sessions",
+            "method": "GET",
+            "sortNum": 120000,
+            "created": "2023-02-17T16:49:04.318Z",
+            "modified": "2023-02-17T16:49:06.923Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "7b068aff-0084-4412-af3f-a34a5345fff3",
+            "colId": "1fd14b5a-fc5d-428b-a972-dce954282789",
+            "containerId": "95e2b30a-12d2-4416-981a-0b39ad9295ba",
+            "name": "get today's sessions (ING4)",
+            "url": "http://localhost:4500/sessions/today/63efa29c9cdc1d04f1cbd541",
+            "method": "GET",
+            "sortNum": 130000,
+            "created": "2023-02-17T16:49:26.710Z",
+            "modified": "2023-02-17T16:49:55.051Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "49305378-dcae-4c18-a24b-1b614d3df9cb",
+            "colId": "1fd14b5a-fc5d-428b-a972-dce954282789",
+            "containerId": "95e2b30a-12d2-4416-981a-0b39ad9295ba",
+            "name": "get current session (ING4)",
+            "url": "http://localhost:4500/sessions/current/63efa29c9cdc1d04f1cbd541",
+            "method": "GET",
+            "sortNum": 140000,
+            "created": "2023-02-17T16:49:59.305Z",
+            "modified": "2023-02-17T16:50:15.176Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}

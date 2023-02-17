@@ -12,7 +12,7 @@ const sessionSchema = new mongoose.Schema({
     },
     matiere: { 
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Student'
+        ref: 'Matiere'
     },
     classe: { 
         type: mongoose.Schema.Types.ObjectId,
