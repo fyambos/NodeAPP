@@ -33,11 +33,10 @@ router.post('/', async (req, res) => {
                 { start: { $lt: start }, end: { $gt: end } }
             ]
         });
-        if (conflitEDT.length > 0) {
-            return res.status(409).json({ error: "La classe a déjà une session en conflit avec l'horaire de cette nouvelle session" });
-        }
-        else if (end < start) {
+        if (end < start) {
           return res.status(400).json({ error: "L'horaire de fin de session est avant le début" });
+        } else if (conflitEDT.length > 0) {
+          return res.status(409).json({ error: "La classe a déjà une session en conflit avec l'horaire de cette nouvelle session" });
         }
 
         // creer la session
@@ -150,7 +149,8 @@ router.get('/today/:classId', async (req, res) => {
           start: { $lt: dayEnd },
           end: { $gt: dayStart }
       }).populate("classe") 
-      .populate("matiere");
+      .populate("matiere")
+      .sort({ start: 1 }); // 1 pour ASC
       //populate pour pouvoir voir le contenu des classes et matieres de la session, et pas juste l'id
       if (!todaySessions) {
           return res.status(404).json({

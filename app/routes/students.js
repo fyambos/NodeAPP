@@ -60,7 +60,8 @@ router.post('/register',  async(req, res) => {
 
         return(res.status(500).json({
             msg: "Les confirmations ne sont pas exactes !"
-        }))
+            
+        }));
     }
 
     try{
@@ -98,10 +99,10 @@ router.post('/login',  async(req, res) => {
 
     const {email, password} = req.body;
 
-    if((typeof email === 'undefined' || email.trim() === "") || (typeof password === 'undefined' & password.trim() === "" )){
+    if(typeof email === 'undefined' || email.trim() === "" || typeof password === 'undefined' || password.trim() === ""){
 
         return(res.status(400).json({
-            msg: "Mauvaise requête, il faut remplir tous les champs !"
+            msg: "Il faut remplir tous les champs !"
         }))
     }
     
@@ -148,7 +149,7 @@ router.get('/me', async (request, response) => {
     return response.status(200).json(request.session.student);
 });
 
-router.post('/logout', (req, res) => {
+router.get('/logout', (req, res) => {
     req.session.student = null;
     res.json({ message: "Logout successful." });
   });
@@ -221,13 +222,32 @@ router.put('/:id', async (req,res) => {
 });
 
 // PATCH method, update partial object by id
-router.patch('/:id', (req,res) => {
+router.patch('/:id', async (req,res) => {
     const {id} = req.params;
-    const {lastname} = req.body;
-    studentModel.findByIdAndUpdate({'_id':id}).then(function (student) {
-      student.lastname = lastname;
-    res.status(200).json(student);
-    });
+    const { firstname, lastname, email, password } = req.body;
+    try {
+        const student = await studentModel.findById(id);
+        if (!student) {
+          return res.status(404).json({ error: 'L\'élève n\'éxiste pas.'});
+        }
+        if (firstname !== undefined) {
+            student.firstname = firstname;
+          }
+          if (lastname !== undefined) {
+            student.lastname = lastname;
+          }
+          if (email !== undefined) {
+            student.email = email;
+          }
+          if (password !== undefined) {
+            student.password = password;
+          }
+          const updatedStudent = await student.save();
+          res.status(200).json(updatedStudent);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Server error' });
+          }
 });
 
 

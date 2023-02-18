@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "NodeApp",
-    "dateExported": "2023-02-17T16:50:24.559Z",
+    "dateExported": "2023-02-18T17:25:07.460Z",
     "version": "1.1",
     "folders": [
         {
@@ -104,12 +104,12 @@
             "method": "POST",
             "sortNum": 50000,
             "created": "2023-02-17T15:56:47.211Z",
-            "modified": "2023-02-17T16:01:47.635Z",
+            "modified": "2023-02-17T21:10:59.257Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"studentId\":\"63efa3a79cdc1d04f1cbd551\",\n  \"classeId\":\"63efa29c9cdc1d04f1cbd541\"\n}",
+                "raw": "{\n  \"studentId\":\"63efe485ce3801ec42ac1d28\",\n  \"classeId\":\"63efa29c9cdc1d04f1cbd541\"\n}",
                 "form": []
             },
             "tests": []
@@ -166,11 +166,11 @@
             "colId": "1fd14b5a-fc5d-428b-a972-dce954282789",
             "containerId": "08eb2edc-226a-4f6d-b98f-2129e71140ff",
             "name": "get matiere by id",
-            "url": "http://localhost:4500/students/63efa3a79cdc1d04f1cbd551",
+            "url": "http://localhost:4500/matieres/63efa98e9cdc1d04f1cbd56c",
             "method": "GET",
             "sortNum": 80000,
             "created": "2023-02-17T16:03:44.213Z",
-            "modified": "2023-02-17T16:03:51.459Z",
+            "modified": "2023-02-17T17:16:39.387Z",
             "headers": [],
             "params": [],
             "tests": []
@@ -203,12 +203,12 @@
             "method": "POST",
             "sortNum": 100000,
             "created": "2023-02-17T16:27:10.039Z",
-            "modified": "2023-02-17T16:48:45.776Z",
+            "modified": "2023-02-18T15:08:18.207Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{ \n  \"classeId\":\"63efa29c9cdc1d04f1cbd541\",\n  \"matiereId\":\"63efa9be9cdc1d04f1cbd576\",\n  \"start\":\"2023-02-17T11:00:00.000Z\",\n  \"end\":\"2023-02-17T12:45:00.000Z\"\n}",
+                "raw": "{ \n  \"classeId\":\"63efa29c9cdc1d04f1cbd541\",\n  \"matiereId\":\"63efa9be9cdc1d04f1cbd576\",\n  \"start\":\"2023-02-18T13:00:00.000Z\",\n  \"end\":\"2023-02-18T15:30:00.000Z\"\n}",
                 "form": []
             },
             "tests": []
@@ -222,7 +222,21 @@
             "method": "GET",
             "sortNum": 120000,
             "created": "2023-02-17T16:49:04.318Z",
-            "modified": "2023-02-17T16:49:06.923Z",
+            "modified": "2023-02-17T17:18:50.190Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "1bb292a3-c056-4557-b1b6-996b9f822894",
+            "colId": "1fd14b5a-fc5d-428b-a972-dce954282789",
+            "containerId": "95e2b30a-12d2-4416-981a-0b39ad9295ba",
+            "name": "get sessions by id",
+            "url": "http://localhost:4500/sessions/63efad4665999775eb1a39bd",
+            "method": "GET",
+            "sortNum": 125000,
+            "created": "2023-02-17T17:18:27.788Z",
+            "modified": "2023-02-17T17:18:45.024Z",
             "headers": [],
             "params": [],
             "tests": []
@@ -250,9 +264,47 @@
             "method": "GET",
             "sortNum": 140000,
             "created": "2023-02-17T16:49:59.305Z",
-            "modified": "2023-02-17T16:50:15.176Z",
+            "modified": "2023-02-17T17:17:51.974Z",
             "headers": [],
             "params": [],
+            "tests": []
+        },
+        {
+            "_id": "1ee58e33-37a4-4b90-b90c-7904def29043",
+            "colId": "1fd14b5a-fc5d-428b-a972-dce954282789",
+            "containerId": "2df6e318-f3d9-4714-aa78-f987fbc2ffe5",
+            "name": "login",
+            "url": "localhost:4500/students/login",
+            "method": "POST",
+            "sortNum": 150000,
+            "created": "2023-02-18T17:19:35.814Z",
+            "modified": "2023-02-18T17:21:12.450Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"email\":\"test\",\n\"password\":\"testt\"}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "22310a5b-19b5-44f5-81ed-cd78bcaaa825",
+            "colId": "1fd14b5a-fc5d-428b-acd972-dce954282789",
+            "containerId": "2df6e318-f3d9-4714-aa78-f987fbc2ffe5",
+            "name": "logout",
+            "url": "localhost:4500/students/logout",
+            "method": "GET",
+            "sortNum": 160000,
+            "created": "2023-02-18T17:24:05.145Z",
+            "modified": "2023-02-18T17:24:14.991Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"email\":\"test\",\n\"password\":\"testt\"}",
+                "form": []
+            },
             "tests": []
         }
     ]
